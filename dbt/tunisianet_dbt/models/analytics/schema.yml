@@ -1,0 +1,12 @@
+version: 2
+
+models:
+  - name: analytics
+    description: "Brand-level price/rank analytics with filters"
+    columns:
+      - name: brand
+        tests: [unique, not_null]
+      - name: average_price
+        tests: [not_null]
+      - name: median_rank
+        tests: [not_null]

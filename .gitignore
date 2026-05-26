@@ -1,0 +1,29 @@
+# Secrets & local config
+.env
+docker-compose.yml
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+
+# dbt
+dbt/tunisianet_dbt/target/
+dbt/tunisianet_dbt/dbt_packages/
+dbt/tunisianet_dbt/logs/
+dbt/logs/
+dbt/venv/
+
+# Scraped data
+data/*.json
+data/logs/
+
+# OS
+.DS_Store
+Thumbs.db
