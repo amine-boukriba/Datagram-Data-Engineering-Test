@@ -41,8 +41,8 @@ The scraper rotates User-Agent headers and adds random delays between pages and 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/<repo-name>.git
-cd <repo-name>
+git clone https://github.com/amine-boukriba/Datagram-Data-Engineering-Test.git
+cd Datagram-Data-Engineering-Test
 ```
 
 ### 2. Create and activate a virtual environment
@@ -86,10 +86,22 @@ cp docker-compose.example.yml docker-compose.yml
 docker compose up -d
 ```
 
-### 6. Install dbt packages
+### 6. Set up dbt
+
+It is recommended to create a dedicated virtual environment for dbt to avoid dependency conflicts with the scraper packages.
 
 ```bash
 cd dbt/tunisianet_dbt
+
+python -m venv venv
+
+# Windows
+venv\Scripts\activate
+
+# macOS / Linux
+source venv/bin/activate
+
+pip install dbt-postgres
 dbt deps
 ```
 
@@ -114,12 +126,6 @@ To scrape additional categories, open `scraping.py` and uncomment the desired en
 ```bash
 # Load all new files in data/ (already-imported files are skipped automatically)
 python load_to_db.py
-
-# Load specific files
-python load_to_db.py data/products_20260526_174000.json
-
-# Force re-import a file
-python load_to_db.py --force data/products_20260526_174000.json
 ```
 
 ### Step 3 — Run dbt transformations
