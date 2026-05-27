@@ -26,3 +26,6 @@ data/logs/
 # OS
 .DS_Store
 Thumbs.db
+
+#docker
+docker-compose.example.yml
