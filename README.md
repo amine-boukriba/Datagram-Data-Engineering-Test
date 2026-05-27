@@ -17,8 +17,8 @@ tunisianet.com.tn
   dbt (tunisianet_dbt) ← transforms raw data through three layers
        │
        ├── staging/stg_raw_data   (deduplicate, latest row per product)
-       ├── core/product           (incremental SCD: tracks created / updated)
-       ├── core/price             (price history with discount)
+       ├── core/product           (one row per product, with first-seen / last-seen timestamps)
+       ├── core/price             (prices with discount)
        ├── core/ranking           (rank history, current and historical max)
        └── analytics/             (brand-level aggregations)
 ```
@@ -69,49 +69,6 @@ Once the pipeline has run, open a `psql` shell inside the postgres container (us
 ```bash
 docker compose exec postgres psql -U <DB_USER> -d <DB_NAME>
 ```
-
-### Top brands by average price
-
-```sql
-SELECT brand, average_price, median_rank
-FROM analytics
-ORDER BY average_price DESC
-LIMIT 10;
-```
-
-### Products with the biggest current discount
-
-```sql
-SELECT p.name, p.brand, pr.price, pr.price_old, pr.discount
-FROM product p
-JOIN price pr ON p.id = pr.product_id
-WHERE pr.discount > 0
-ORDER BY pr.discount DESC
-LIMIT 10;
-```
-
-### Most recently discovered products
-
-```sql
-SELECT id, name, brand, created
-FROM product
-ORDER BY created DESC
-LIMIT 10;
-```
-
-### Best-ranked products per brand
-
-```sql
-SELECT p.brand, p.name, r.rank, r.max_rank
-FROM product p
-JOIN ranking r ON p.id = r.product_id
-WHERE r.rank <= 10
-ORDER BY p.brand, r.rank;
-```
-
-Exit `psql` with `\q`.
-
----
 
 ## Manual setup (local)
 
