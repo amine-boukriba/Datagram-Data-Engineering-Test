@@ -1,6 +1,5 @@
 # Secrets & local config
 .env
-docker-compose.yml
 
 # Python
 venv/
